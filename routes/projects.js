@@ -34,7 +34,7 @@ router.get('/:id', valProjectId, (req, res) => {
 
 // @desc    Update project
 // @route   PUT /api/projects/:id
-router.put('/:id', valProjectId, async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
   try {
     const project = await Projects.update(req.params.id, req.body);
 
@@ -56,6 +56,17 @@ router.delete('/:id', valProjectId, async (req, res, next) => {
     res.status(200).json({
       message: `${count} records(s) have been deleted`
     });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// @desc    Get all actions for project
+// @route   GET /api/projects/:id/actions
+router.get('/:id/actions', valProjectId, async (req, res, next) => {
+  try {
+    const actions = await Projects.getProjectActions(req.params.id);
+    res.status(200).json(actions);
   } catch (err) {
     next(err);
   }
